@@ -1,8 +1,8 @@
 name: Build and Release
 on:
   push:
-    tags:
-      - 'V*'
+    branches: [ main ]
+    tags: [ 'v*' ]
 
 jobs:
   build:
@@ -31,11 +31,12 @@ jobs:
       run: Compress-Archive -Path dist/GPT2_Offline/* -DestinationPath GPT2_Offline_v5.2.zip
 
     - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v2
       with:
         files: GPT2_Offline_v5.2.zip
         name: Stable Release ${{ github.ref_name }}
-        tag_name: ${{ github.ref }}
+        tag_name: ${{ github.ref_name }}
         body: "Автоматическая сборка оффлайн-нейросети GPT-2."
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
