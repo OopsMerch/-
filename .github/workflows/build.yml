@@ -18,7 +18,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Build with PyInstaller
-      run: pyinstaller --onedir --name "GPT2_Offline" main.py
+      run: pyinstaller --onedir --name "GPT2_Offline" --collect-all transformers --collect-all accelerate main.py
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
